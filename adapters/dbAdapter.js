@@ -48,6 +48,25 @@ module.exports = (connection) => {
             });
 
             return promise;
+        },
+
+        postBook: (userId, isbn, lat, long, imageUrl, title, genre, desc) => {
+            let promise = new Promise((resolve, reject)=>{
+                let columnNames = 'user_id, isbb, lat, long, imageUrl, title, genre, description';
+                let columnValues = `${userId}, '${isbn}', '${lat}', '${lat}', '${long}', '${imageUrl}', '${title}', '${genre}', '${desc}'`;
+                let postBookQuery = `INSERT INTO books ($(columnNames)) VALUES (${columnValues})`;
+
+                connection.query(postBookQuery, (err, rows) => {
+                    if(err) {
+                        console.log("Error in posting book");
+                        return reject();
+                    } else {
+                        return resolve();
+                    }
+                })
+            });
+
+            return promise;
         }
     }
 }

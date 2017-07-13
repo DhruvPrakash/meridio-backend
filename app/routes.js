@@ -2,8 +2,16 @@
 module.exports = (app, dbAdapter) => {
 
 	app.post('/setUserSession', (req, res) => {
-		console.log("request received");
-		//dbAdapter.setUserSession()
+		dbAdapter.setUserSession(req.body.name, req.body.sessionToken, req.body.emailId).then((userId) => {
+			res.json({
+				"status" : "success",
+				"userId" : userId
+			});
+		}, () => {
+			res.json({
+				"status": "failure"
+			});
+		});
 	});
 	
 	

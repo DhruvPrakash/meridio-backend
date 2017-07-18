@@ -25,7 +25,17 @@ module.exports = (app, dbAdapter) => {
 			});
 		});
 	});
-	
-	
+
+	app.post('/createTradeRequest', (req, res) => {
+		dbAdapter.createTradeRequest(req.userId, req.wantsBookId).then(() => {
+			res.json({
+				"status": "success"
+			});
+		}, () => {
+			res.json({
+				"status": "failure"
+			});
+		});
+	});
 }
 

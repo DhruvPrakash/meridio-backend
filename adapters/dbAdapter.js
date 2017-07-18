@@ -51,8 +51,8 @@ module.exports = (connection) => {
         },
 
         postBook: (userId, isbn, lat, long, imageUrl, title, genre, desc) => {
-            let promise = new Promise((resolve, reject)=>{
-                let columnNames = 'user_id, isbb, lat, long, imageUrl, title, genre, description';
+            let promise = new Promise((resolve, reject) => {
+                let columnNames = 'user_id, isbn, lat, long, imageUrl, title, genre, description';
                 let columnValues = `${userId}, '${isbn}', '${lat}', '${lat}', '${long}', '${imageUrl}', '${title}', '${genre}', '${desc}'`;
                 let postBookQuery = `INSERT INTO books ($(columnNames)) VALUES (${columnValues})`;
 
@@ -67,6 +67,56 @@ module.exports = (connection) => {
             });
 
             return promise;
-        }
+        }, 
+
+        createTradeRequest: (userId, wantsBookId) => {
+            let promise = new Promise((resolve, reject) => {
+                
+                let getUserIdQueryForThisBook = `SELECT user_id from USERS where id = ${wantsBookId}`;
+                //in posted books get the userID who is associated with this book id
+                connection.query(getUserIdQueryForThisBook, (err, rows) => {
+                    if (err) {
+                        console.log("Error in the get user id query");
+                        return reject();
+                    } else if (rows.length === 0) {
+                        console.log("No such user is present");
+                        return reject();
+                    } else {
+                        //got the user_id.. now make a trade request to this user
+                        let acceptor_id = rows[0].user_id;
+                        let columnNames = 'requestor_id, wantsBookId, acceptor_id';
+                        let columnValues = `${requestor_id}, ${wantsBookId}, ${acceptor_id}`;
+                        let createTradeRequestQuery = `INSERT INTO trade_requests (${columnNames}) VALUES (${columnValues})`;
+                        connection.query(createTradeRequestQuery, (err, rows) => {
+                            if(err) {
+                                console.log("Error is creating a trade request");
+                                return reject();
+                            } else {
+                                return resolve();
+                            }
+                        });
+                    }
+                });
+                
+            })
+        },
+
+
+        getTradeRequests: (userId) => {
+            let promise = new Promise((resolve, reject) => {
+                let columnNames = 'acceptor_id';
+                let columnValues = `${acceptor_id}`;
+                let createTradeRequestQuery = `SELECT * from trade_requests where ${columnNames} = (${columnValues})`;
+
+                connection.query(createTradeRequestQuery, (err, rows) => {
+                    if(err) {
+                        console.log("Error is creating a trade request");
+                        return reject();
+                    } else {
+                        return resolve(rows[0]);
+                    }
+                });
+            })
+        } 
     }
 }

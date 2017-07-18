@@ -27,7 +27,7 @@ module.exports = (app, dbAdapter) => {
 	});
 
 	app.post('/createTradeRequest', (req, res) => {
-		dbAdapter.createTradeRequest(req.userId, req.wantsBookId).then(() => {
+		dbAdapter.createTradeRequest(req.fromUserId, req.requestorWantsBookId).then(() => {
 			res.json({
 				"status": "success"
 			});
@@ -37,5 +37,46 @@ module.exports = (app, dbAdapter) => {
 			});
 		});
 	});
+
+	app.get('/getTradeRequests', (req, res) => {
+		dbAdapter.getTradeRequests(req.fromUserId, req.toUserId).then((tradeRequests) => {
+			res.json({
+				"status": "success",
+				"tradeRequests" : tradeRequests
+			});
+		}, () => {
+			res.json({
+				"status": "failure"
+			});
+		});
+	});
+
+	app.post('/updateTradeRequest', (req, res) => {
+		dbAdapter.updateTradeRequest(req.id, req.status, req.acceptorWantsBookId).then(() => {
+			res.json({
+				"status": "success"
+			});
+		},() => {
+			res.json({
+				"status": "failure"
+			});
+		});
+	});
+
+	app.get('/getMyBooks', (req, res) => {
+		dbAdapter.getMyBooks(req.userId).then(() => {
+			res.json({
+				"status": "success"
+			});
+		},(books) => {
+			res.json({
+				"status": "failure",
+				"books" : books
+			});
+		});
+	})
+
+
+
 }
 

@@ -69,10 +69,10 @@ module.exports = (connection) => {
             return promise;
         }, 
 
-        createTradeRequest: (userId, wantsBookId) => {
+        createTradeRequest: (fromUserId, acceptorWantsBookId) => {
             let promise = new Promise((resolve, reject) => {
                 
-                let getUserIdQueryForThisBook = `SELECT user_id from USERS where id = ${wantsBookId}`;
+                let getUserIdQueryForThisBook = `SELECT user_id from BOOKS where id = ${acceptorWantsBookId}`;
                 //in posted books get the userID who is associated with this book id
                 connection.query(getUserIdQueryForThisBook, (err, rows) => {
                     if (err) {
@@ -83,9 +83,9 @@ module.exports = (connection) => {
                         return reject();
                     } else {
                         //got the user_id.. now make a trade request to this user
-                        let acceptor_id = rows[0].user_id;
-                        let columnNames = 'requestor_id, wantsBookId, acceptor_id';
-                        let columnValues = `${requestor_id}, ${wantsBookId}, ${acceptor_id}`;
+                        let toUserId = rows[0].user_id;
+                        let columnNames = 'from_user_id, acceptor_wants_book_id, to_user_id';
+                        let columnValues = `${fromUserId}, ${acceptorWantsBookId}, ${toUserId}`;
                         let createTradeRequestQuery = `INSERT INTO trade_requests (${columnNames}) VALUES (${columnValues})`;
                         connection.query(createTradeRequestQuery, (err, rows) => {
                             if(err) {
@@ -98,25 +98,113 @@ module.exports = (connection) => {
                     }
                 });
                 
-            })
+            });
+            return promise;
         },
 
 
-        getTradeRequests: (userId) => {
-            let promise = new Promise((resolve, reject) => {
-                let columnNames = 'acceptor_id';
-                let columnValues = `${acceptor_id}`;
-                let createTradeRequestQuery = `SELECT * from trade_requests where ${columnNames} = (${columnValues})`;
 
-                connection.query(createTradeRequestQuery, (err, rows) => {
+        //TODO: Check the resolve value.. 
+        getTradeRequests: (toUserId, fromUserId) => {
+            let promise = new Promise((resolve, reject) => {
+                let columnNames, columnValues, getTradeRequestsQuery;
+                if(!!toUserId) {
+                    columnNames = 'to_user_id';
+                    columnValues = `${toUserId}`;
+                } else if (!!fromUserId) {
+                    columnNames = 'from_user_id';
+                    columnValues = `${fromUserId}`;
+                }
+                getTradeRequestsQuery = `SELECT * from trade_requests where ${columnNames} = (${columnValues})`;
+                
+
+                connection.query(getTradeRequestsQuery, (err, rows) => {
                     if(err) {
-                        console.log("Error is creating a trade request");
+                        console.log("Error in getting trade requests");
                         return reject();
                     } else {
-                        return resolve(rows[0]);
+                        return resolve(rows);
                     }
                 });
-            })
-        } 
+            });
+            return promise;
+        },
+
+        updateTradeRequest: (id, status, acceptorWantsBookId) => {
+            // change status of trade request
+            // remove the two exchanged books from the books table
+            let promise = new Promise((resolve, reject) => {
+                let updateTradeRequestQuery = `UPDATE * from trade_requests set status = '${status}', acceptor_wants_book_id = ${acceptorWantsBookId} 
+                    where id = ${id}`;
+                let getBookIdRequestedQuery = `SELECT requestor_wants_book_id from trade_requests where id = ${id}`;
+                
+                connection.query(updateTradeRequestQuery, (err, rows) => {
+                    if(err) {
+                        console.log("Error in updating trade requests");
+                        return reject();
+                    } else {
+                        //remove the two books from the books table
+                        //get the book id requested off me
+                        connection.query(getBookIdRequestedQuery, (err, rows) => {
+                            if(err) {
+                                console.log("Error in getting the books corresponding to trade request");
+                                return reject();
+                            } else {
+                                let requestorWantsBookId = rows[0].requestor_wants_book_id;
+                                let removeBooksQuery = `DELETE * from books where id = ${requestorWantsBookId} OR id = ${acceptorWantsBookId}`;
+                                connection.query(removeBooksQuery, (err, rows) => {
+                                    if(err) {
+                                        console.log("Error in deleting the books corresponding to the trade request");
+                                        return reject();
+                                    } else {
+                                        return resolve();
+                                    }
+                                })
+                            }
+                        })
+                    }
+                });
+            });
+            return promise;
+        },
+
+        getMyBooks: (userId) => {
+            let promise = new Promise((resolve, reject) => {
+                let columnNames = 'user_id';
+                let columnValues = `${userId}`;
+                let getBooksQuery = `SELECT * from books where ${columnNames} = (${columnValues})`;
+
+                connection.query(getBooksQuery, (err, rows) => {
+                    if(err) {
+                        console.log("Error is getting books");
+                        return reject();
+                    } else {
+                        return resolve(rows);
+                    }
+                });
+            });
+            return promise;
+        },
+
+        deleteBook: (bookId) => {
+            //check if book belongs to me? nope not doing this
+            let promise = new Promise((resolve, reject) => {
+                let columnNames = 'id';
+                let columnValues = `${bookId}`;
+                let deleteBookQuery = `DELETE * from books where ${columnNames} = (${columnValues})`;
+
+                connection.query(deleteBooksQuery, (err, rows) => {
+                    if(err) {
+                        console.log("Error in removing books");
+                        return reject();
+                    } else {
+                        return resolve();
+                    }
+                });
+            });
+            return promise;
+        }
     }
+
+    //TODO: booksAroundMe, interface documentation and testing
 }

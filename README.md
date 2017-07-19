@@ -221,3 +221,55 @@ Provide the userId of the person who's books are to be fetched.
     "status": "failure"
 }
 ```
+
+# Create a trade request
+
+Request for a book which you would like.
+
+**URL** : `/createTradeRequest`
+
+**Method** : `POST`
+
+**Data constraints**
+
+Provide your userId and the id of the book you want.
+
+```json
+{
+    "fromUserId": [Integer],
+    "requestorWantsBookId": [Integer]
+}
+```
+
+**Data example** All fields must be sent.
+
+```json
+{
+    "fromUserId": 123,
+    "requestorWantsBookId" : 32
+}
+```
+
+## Success Response
+
+**Condition** : If everything is OK then success status is returned.
+
+**Content example**
+
+```json
+{
+    "status": "success"
+}
+```
+
+## Error Responses
+
+**Condition** : If something goes wrong internally or if fields are missing
+
+**Content example**
+
+```json
+{
+    "status": "failure"
+}
+```

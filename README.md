@@ -62,12 +62,12 @@ Add a book to the user's library. The added book is now up for trade.
 **Method** : `POST`
 
 **Data constraints**
-req.userId, req.isbn, req.lat, req.long, req.imageUrl, req.title, req.genre, req.desc
+
 Provide the userId of person this book belongs to (your user id which you got after creating a session), isbn of book, your current latitude and longitude, the url of the book's image, the book's title, its genre and description.
 
 ```json
 {
-    "userId": [An integer],
+    "userId": [Integer],
     "isbn": "[unicode 250 chars max]",
     "lat": "[unicode 64 chars max]",
     "long": "[unicode 64 chars max]",
@@ -90,6 +90,55 @@ Provide the userId of person this book belongs to (your user id which you got af
     "title": "Freakanomics",
     "genre": "Economics",
     "desc" : "What do schoolteachers and sumo wrestlers have in common?"
+}
+```
+
+## Success Response
+
+**Condition** : If everything is OK then success status is returned.
+
+**Content example**
+
+```json
+{
+    "status": "success"
+}
+```
+
+## Error Responses
+
+**Condition** : If something goes wrong internally or if fields are missing
+
+**Content example**
+
+```json
+{
+    "status": "failure"
+}
+```
+# Delete a book
+
+Remove a book from the user's library. You do this if you no longer what to keep a book up for trade.
+
+**URL** : `/deleteBook`
+
+**Method** : `POST`
+
+**Data constraints**
+
+Provide the bookId of the book to be removed. You can get the bookId as part of the body of the getMyBooks service.
+
+```json
+{
+    "bookId": [Integer]
+}
+```
+
+**Data example** All fields must be sent.
+
+```json
+{
+    "bookId": 32
 }
 ```
 

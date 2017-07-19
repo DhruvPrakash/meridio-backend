@@ -165,3 +165,59 @@ Provide the bookId of the book to be removed. You can get the bookId as part of 
     "status": "failure"
 }
 ```
+
+# Get my books
+
+Get all the books which belong to me.
+
+**URL** : `/getMyBooks`
+
+**Method** : `POST`
+
+**Data constraints**
+
+Provide the userId of the person who's books are to be fetched.
+
+```json
+{
+    "userId": [Integer]
+}
+```
+
+**Data example** All fields must be sent.
+
+```json
+{
+    "userId": 123
+}
+```
+
+## Success Response
+
+**Condition** : If everything is OK then success status is returned along with a list of books (array) belonging to the user.
+
+**Content example**
+
+```json
+{
+    "status": "success",
+    "books": [{
+        "isbn": "9785845105127", 
+        "imageUrl": "https://books.google.com/books?id=ezqe1hh91q4C&pg=PR3&img=1&zoom=5&sig=bBmzIAIiCtMcM7Ii7TUHycqqEWg",             "title": "Freakanomics", 
+        "genre": "Economics",
+        "description": "What do school teachers and sumo wrestlers have in common?"
+    }]
+}
+```
+
+## Error Responses
+
+**Condition** : If something goes wrong internally or if fields are missing
+
+**Content example**
+
+```json
+{
+    "status": "failure"
+}
+```

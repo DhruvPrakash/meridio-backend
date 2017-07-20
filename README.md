@@ -74,7 +74,7 @@ Provide the userId of person this book belongs to (your user id which you got af
     "imageUrl": "[unicode 250 chars max]",
     "title": "[unicode 100 chars max]",
     "genre": "[unicode 20 chars max]",
-    "desc" : "[unicode 250 chars max]"
+    "desc" : "[unicode 1000 chars max]"
 }
 ```
 
@@ -202,6 +202,7 @@ Provide the userId of the person who's books are to be fetched.
 {
     "status": "success",
     "books": [{
+        "bookId": 32
         "isbn": "9785845105127", 
         "imageUrl": "https://books.google.com/books?id=ezqe1hh91q4C&pg=PR3&img=1&zoom=5&sig=bBmzIAIiCtMcM7Ii7TUHycqqEWg",             "title": "Freakanomics", 
         "genre": "Economics",
@@ -262,6 +263,131 @@ Provide your userId and the id of the book you want.
 }
 ```
 
+## Error Responses
+
+**Condition** : If something goes wrong internally or if fields are missing
+
+**Content example**
+
+```json
+{
+    "status": "failure"
+}
+```
+
+
+# Get trade requests
+
+Get the trade requests directed to you or directed by you.
+
+**URL** : `/getTradeRequests`
+
+**Method** : `POST`
+
+**Data constraints**
+
+Provide your user ID as a fromUserId *OR* a toUserId. Do not send both. If it is sent as fromUserId then you will get trade requests you have sent out. If it is sent as toUserId then you will get trade requests directed to you.
+
+```json
+{
+    "fromUserId": [Integer]
+}
+```
+OR
+```json
+{
+    "toUserId": [Integer]
+}
+```
+**Data example** All fields must be sent.
+
+```json
+{
+    "fromUserId": 123
+}
+```
+OR
+```json
+{
+    "toUserId": 123
+}
+```
+## Success Response
+
+**Condition** : If everything is OK then success status is returned along with the trade requests sent by you or sent to you depending on what parameter was passed in the body of the request.
+
+**Content example**
+from me to somebody else
+```json
+{
+    "status": "success",
+    "tradeRequests": [{
+        "id": 4,
+        "fromUserId": 123,
+        "toUserId": 321,
+        "status" : "approved"
+        "bookTradeDetails": {
+            "bookTraded": "A clash of crows?",
+            "forBook" : "The winds of winter"
+        }
+    },{
+        "id": 5,
+        "fromUserId": 123,
+        "toUserId": 543,
+        "status": "pending"
+        "bookTradeDetails": {
+            "bookTraded": null,
+            "forBook": "Darkness of dragons"
+        }
+    },{
+        "id": 6,
+        "fromUserId": 123,
+        "toUserId": 326,
+        "status": "declined",
+        "bookTradeDetails": {
+            "bookTraded": null,
+            "forBook": "Barney the purple dinosaur: Origin"
+        }
+    }]
+}
+```
+OR
+from somebody else to me
+```json
+{
+    "status": "success",
+    "tradeRequests": [{
+        "id": 1,
+        "fromUserId": 789,
+        "toUserId": 123,
+        "status": "pending",
+        "bookTradeDetails": {
+            "bookTraded": null,
+            "forBook": "Battlefield of the Mind",
+        }
+        
+    },{
+        "id": 2,
+        "fromUserId": 432,
+        "toUserId": 123,
+        "status": "approved",
+        "bookTradeDetails": {
+            "bookTraded": "Naruto, the backstory"
+            "forBook": "The Harbringer"
+        }
+        
+    },{
+        "id": 3,
+        "fromUserId": 412,
+        "toUserId": 123,
+        "status": "declined",
+        "bookTradeDetails": {
+            "bookTraded": null,
+            "forBook": "The Hobbit",
+        }
+    }]
+}
+```
 ## Error Responses
 
 **Condition** : If something goes wrong internally or if fields are missing

@@ -372,7 +372,7 @@ from somebody else to me
         "toUserId": 123,
         "status": "approved",
         "bookTradeDetails": {
-            "bookTraded": "Naruto, the backstory"
+            "bookTraded": "Naruto, the backstory",
             "forBook": "The Harbringer"
         }
         

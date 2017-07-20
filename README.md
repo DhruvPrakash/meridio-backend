@@ -399,3 +399,65 @@ from somebody else to me
     "status": "failure"
 }
 ```
+
+# Update a trade request
+
+Approve or Reject a Pending trade request.
+
+**URL** : `/updateTradeRequest`
+
+**Method** : `POST`
+
+**Data constraints**
+
+Provide the id of the trade request, the updated status and the id of the book which you want.
+
+```json
+{
+    "id": [Integer],
+    "acceptorWantsBookId": [Integer],
+    "status": "[unicode 64 chars max]"
+}
+```
+
+**Data example** acceptorWantsBookId is to be sent only if the status is approved otherwise it should not be sent.
+
+```json
+{
+    "id": 123,
+    "acceptorWantsBookId" : 32,
+    "status": "approved"
+}
+```
+
+or
+
+```json
+{
+    "id": 123,
+    "status": "declined"
+}
+```
+## Success Response
+
+**Condition** : If everything is OK then success status is returned.
+
+**Content example**
+
+```json
+{
+    "status": "success"
+}
+```
+
+## Error Responses
+
+**Condition** : If something goes wrong internally or if fields are missing
+
+**Content example**
+
+```json
+{
+    "status": "failure"
+}
+```

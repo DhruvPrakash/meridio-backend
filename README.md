@@ -325,7 +325,7 @@ from me to somebody else
         "id": 4,
         "fromUserId": 123,
         "toUserId": 321,
-        "status" : "approved"
+        "status" : "approved",
         "bookTradeDetails": {
             "bookTraded": "A clash of crows?",
             "forBook" : "The winds of winter"
@@ -334,7 +334,7 @@ from me to somebody else
         "id": 5,
         "fromUserId": 123,
         "toUserId": 543,
-        "status": "pending"
+        "status": "pending",
         "bookTradeDetails": {
             "bookTraded": null,
             "forBook": "Darkness of dragons"

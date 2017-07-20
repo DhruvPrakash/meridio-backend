@@ -202,7 +202,7 @@ Provide the userId of the person who's books are to be fetched.
 {
     "status": "success",
     "books": [{
-        "bookId": 32
+        "bookId": 32,
         "isbn": "9785845105127", 
         "imageUrl": "https://books.google.com/books?id=ezqe1hh91q4C&pg=PR3&img=1&zoom=5&sig=bBmzIAIiCtMcM7Ii7TUHycqqEWg",             "title": "Freakanomics", 
         "genre": "Economics",

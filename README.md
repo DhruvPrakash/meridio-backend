@@ -69,8 +69,8 @@ Provide the userId of person this book belongs to (your user id which you got af
 {
     "userId": [Integer],
     "isbn": "[unicode 250 chars max]",
-    "lat": "[unicode 64 chars max]",
-    "long": "[unicode 64 chars max]",
+    "latitude": "[unicode 64 chars max]",
+    "longitude": "[unicode 64 chars max]",
     "imageUrl": "[unicode 500 chars max]",
     "title": "[unicode 100 chars max]",
     "genre": "[unicode 20 chars max]",

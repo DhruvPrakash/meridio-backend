@@ -1,5 +1,30 @@
 
 
+function mysql_real_escape_string (str) {
+    return str.replace(/[\0\x08\x09\x1a\n\r"'\\\%]/g, function (char) {
+        switch (char) {
+            case "\0":
+                return "\\0";
+            case "\x08":
+                return "\\b";
+            case "\x09":
+                return "\\t";
+            case "\x1a":
+                return "\\z";
+            case "\n":
+                return "\\n";
+            case "\r":
+                return "\\r";
+            case "\"":
+            case "'":
+            case "\\":
+            case "%":
+                return "\\"+char; // prepends a backslash to backslash, percent,
+                                  // and double/single quotes
+        }
+    });
+}
+
 module.exports = (connection) => {
     return {
 
@@ -52,9 +77,15 @@ module.exports = (connection) => {
 
         postBook: (userId, isbn, latitude, longitude, imageUrl, title, genre, desc, author) => {
             let promise = new Promise((resolve, reject) => {
+
+                imageUrl = mysql_real_escape_string(imageUrl);
+                desc = mysql_real_escape_string(desc);
+                author = mysql_real_escape_string(author);
+                title = mysql_real_escape_string(title);
                 let columnNames = 'user_id, isbn, latitude, longitude, image_url, title, genre, description, author';
                 let columnValues = `${userId}, '${isbn}', '${latitude}', '${longitude}', '${imageUrl}', '${title}', '${genre}', '${desc}', '${author}'`;
                 let postBookQuery = `INSERT INTO books (${columnNames}) VALUES (${columnValues})`;
+
                 connection.query(postBookQuery, (err, rows) => {
                     if(err) {
                         console.log(err);
@@ -65,6 +96,7 @@ module.exports = (connection) => {
                     }
                 })
             });
+            
 
             return promise;
         }, 
@@ -172,7 +204,7 @@ module.exports = (connection) => {
             let promise = new Promise((resolve, reject) => {
                 let columnNames = 'user_id';
                 let columnValues = `${userId}`;
-                let getBooksQuery = `SELECT * from books where ${columnNames} = (${columnValues})`;
+                let getBooksQuery = `SELECT id as bookId, isbn, image_url as imageUrl, genre, description, author from books where ${columnNames} = (${columnValues})`;
 
                 connection.query(getBooksQuery, (err, rows) => {
                     if(err) {

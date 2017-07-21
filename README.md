@@ -532,8 +532,8 @@ Provide the id of the user who has the books you are interested in viewing.
     }, {
         "bookId": 154,
         "title": "The snowy day",
-        "author": "Ezra Jack Keats"
-        "imageUrl": "http://t2.gstatic.com/images?q=tbn:ANd9GcRzHQiwejYW9LY8kh9usj5L8zdndWEIEyLuZ4KsWDTY92VExOOg"
+        "author": "Ezra Jack Keats",
+        "imageUrl": "http://t2.gstatic.com/images?q=tbn:ANd9GcRzHQiwejYW9LY8kh9usj5L8zdndWEIEyLuZ4KsWDTY92VExOOg",
         "genre": "children",
         "description": "Not a sunny day"
     }]

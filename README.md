@@ -85,8 +85,8 @@ Provide the userId of person this book belongs to (your user id which you got af
 {
     "userId": 123,
     "isbn": "9785845105127",
-    "lat": "40.689249",
-    "long": "-74.044500",
+    "latitude": "40.689249",
+    "longitude": "-74.044500",
     "imageUrl": "https://books.google.com/books?id=ezqe1hh91q4C&pg=PR3&img=1&zoom=5&sig=bBmzIAIiCtMcM7Ii7TUHycqqEWg",
     "title": "Freakanomics",
     "genre": "Economics",

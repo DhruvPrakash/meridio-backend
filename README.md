@@ -74,7 +74,8 @@ Provide the userId of person this book belongs to (your user id which you got af
     "imageUrl": "[unicode 250 chars max]",
     "title": "[unicode 100 chars max]",
     "genre": "[unicode 20 chars max]",
-    "desc" : "[unicode 1000 chars max]"
+    "description" : "[unicode 1000 chars max]",
+    "author": "[unicode 100 chars max]"
 }
 ```
 
@@ -89,7 +90,8 @@ Provide the userId of person this book belongs to (your user id which you got af
     "imageUrl": "https://books.google.com/books?id=ezqe1hh91q4C&pg=PR3&img=1&zoom=5&sig=bBmzIAIiCtMcM7Ii7TUHycqqEWg",
     "title": "Freakanomics",
     "genre": "Economics",
-    "desc" : "What do schoolteachers and sumo wrestlers have in common?"
+    "description" : "What do schoolteachers and sumo wrestlers have in common?",
+    "author": "Batman"
 }
 ```
 
@@ -206,7 +208,8 @@ Provide the userId of the person who's books are to be fetched.
         "isbn": "9785845105127", 
         "imageUrl": "https://books.google.com/books?id=ezqe1hh91q4C&pg=PR3&img=1&zoom=5&sig=bBmzIAIiCtMcM7Ii7TUHycqqEWg",             "title": "Freakanomics", 
         "genre": "Economics",
-        "description": "What do school teachers and sumo wrestlers have in common?"
+        "description": "What do school teachers and sumo wrestlers have in common?",
+        "author": "Batman"
     }]
 }
 ```
@@ -447,6 +450,93 @@ or
 ```json
 {
     "status": "success"
+}
+```
+
+## Error Responses
+
+**Condition** : If something goes wrong internally or if fields are missing
+
+**Content example**
+
+```json
+{
+    "status": "failure"
+}
+```
+
+# Getting the books available with requestor
+
+Get the books available with the requestor from which you can choose one to trade for.
+
+**URL** : `/booksAvailableWithRequestor`
+
+**Method** : `POST`
+
+**Data constraints**
+
+Provide the id of the user who has the books you are interested in viewing.
+
+```json
+{
+    "userId": [Integer]
+}
+```
+
+**Data example** All fields need to be sent.
+
+```json
+{
+    "userId": 123
+}
+```
+
+## Success Response
+
+**Condition** : If everything is OK then success status is returned along with the list of books available with that user.
+
+**Content example**
+
+```json
+{
+    "status": "success",
+    "books": [{
+        "bookId": 150,
+        "title": "A wrinkle in time",
+        "author": "Madeleine L'Engle",
+        "imageUrl": "http://t2.gstatic.com/images?q=tbn:ANd9GcRnHQjO7_ZrELhUNJyHtjwp_LILUbuSngyhujeShFDvfhP-HBjc",
+        "genre": "children",
+        "description": "Time travel through the space-time continuum"
+        
+    }, {
+        "bookId": 151,
+        "title": "Charlotte's web",
+        "author": "E B White",
+        "imageUrl": "http://t0.gstatic.com/images?q=tbn:ANd9GcQgrAdGHen5K9TkGhFI3jMUSr44Dq0qIfnnH9bj6c8_qCJYzSl1",
+        "genre": "children",
+        "description": "A web of spiders.... burn it with "
+    }, {
+        "bookId": 152,
+        "title": "The cat in the hat",
+        "author": "Dr Seuss",
+        "imageUrl": "http://t2.gstatic.com/images?q=tbn:ANd9GcSrobA2bx30tEpLERBmMZCkBEP-bjbWdxFFWZcCal_vKEaskZ-d",
+        "genre": "children",
+        "description": "An over the top sleazy cat gives advice filled with an unhealthy amount of sarcasm."
+   },{
+        "bookId": 153,
+        "title": "The very hungry caterpillar",
+        "author": "Eric Carle",
+        "imageUrl": "http://t2.gstatic.com/images?q=tbn:ANd9GcRxyVkUIJ_1wa4Wly4yR3MQ599XU6ndd7fZypIFiqUPK1KAHffE",
+        "genre": "children",
+        "description": "a caterpillar that eats all the time."
+    }, {
+        "bookId": 154,
+        "title": "The snowy day",
+        "author": "Ezra Jack Keats"
+        "imageUrl": "http://t2.gstatic.com/images?q=tbn:ANd9GcRzHQiwejYW9LY8kh9usj5L8zdndWEIEyLuZ4KsWDTY92VExOOg"
+        "genre": "children",
+        "description": "Not a sunny day"
+    }]
 }
 ```
 

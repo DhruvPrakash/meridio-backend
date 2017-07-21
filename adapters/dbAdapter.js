@@ -189,11 +189,9 @@ module.exports = (connection) => {
         deleteBook: (bookId) => {
             //check if book belongs to me? nope not doing this
             let promise = new Promise((resolve, reject) => {
-                let columnNames = 'id';
-                let columnValues = `${bookId}`;
-                let deleteBookQuery = `DELETE * from books where ${columnNames} = (${columnValues})`;
+                let deleteBookQuery = `DELETE from books where id = ${bookId}`;
 
-                connection.query(deleteBooksQuery, (err, rows) => {
+                connection.query(deleteBookQuery, (err, rows) => {
                     if(err) {
                         console.log("Error in removing books");
                         return reject();

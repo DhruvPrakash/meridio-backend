@@ -27,7 +27,7 @@ module.exports = (app, dbAdapter) => {
 	});
 
 	app.post('/createTradeRequest', (req, res) => {
-		dbAdapter.createTradeRequest(req.fromUserId, req.requestorWantsBookId).then(() => {
+		dbAdapter.createTradeRequest(req.body.fromUserId, req.body.requestorWantsBookId).then(() => {
 			res.json({
 				"status": "success"
 			});
@@ -39,7 +39,7 @@ module.exports = (app, dbAdapter) => {
 	});
 
 	app.post('/getTradeRequests', (req, res) => {
-		dbAdapter.getTradeRequests(req.fromUserId, req.toUserId).then((tradeRequests) => {
+		dbAdapter.getTradeRequests(req.body.fromUserId, req.body.toUserId).then((tradeRequests) => {
 			res.json({
 				"status": "success",
 				"tradeRequests" : tradeRequests
@@ -52,7 +52,7 @@ module.exports = (app, dbAdapter) => {
 	});
 
 	app.post('/updateTradeRequest', (req, res) => {
-		dbAdapter.updateTradeRequest(req.id, req.status, req.acceptorWantsBookId).then(() => {
+		dbAdapter.updateTradeRequest(req.body.id, req.body.status, req.body.acceptorWantsBookId).then(() => {
 			res.json({
 				"status": "success"
 			});
@@ -64,7 +64,7 @@ module.exports = (app, dbAdapter) => {
 	});
 
 	app.post('/getMyBooks', (req, res) => {
-		dbAdapter.getMyBooks(req.userId).then((books) => {
+		dbAdapter.getMyBooks(req.body.userId).then((books) => {
 			res.json({
 				"status": "success",
 				"books" : books
@@ -77,7 +77,7 @@ module.exports = (app, dbAdapter) => {
 	});
 
 	app.post('/deleteBook', (req,res) => {
-		dbAdapter.deleteBook(req.bookId).then(() => {
+		dbAdapter.deleteBook(req.body.bookId).then(() => {
 			res.json({
 				"status": "success"
 			});

@@ -50,14 +50,14 @@ module.exports = (connection) => {
             return promise;
         },
 
-        postBook: (userId, isbn, lat, long, imageUrl, title, genre, desc) => {
+        postBook: (userId, isbn, latitude, longitude, imageUrl, title, genre, desc, author) => {
             let promise = new Promise((resolve, reject) => {
-                let columnNames = 'user_id, isbn, lat, long, imageUrl, title, genre, description';
-                let columnValues = `${userId}, '${isbn}', '${lat}', '${lat}', '${long}', '${imageUrl}', '${title}', '${genre}', '${desc}'`;
-                let postBookQuery = `INSERT INTO books ($(columnNames)) VALUES (${columnValues})`;
-
+                let columnNames = 'user_id, isbn, latitude, longitude, image_url, title, genre, description, author';
+                let columnValues = `${userId}, '${isbn}', '${latitude}', '${longitude}', '${imageUrl}', '${title}', '${genre}', '${desc}', '${author}'`;
+                let postBookQuery = `INSERT INTO books (${columnNames}) VALUES (${columnValues})`;
                 connection.query(postBookQuery, (err, rows) => {
                     if(err) {
+                        console.log(err);
                         console.log("Error in posting book");
                         return reject();
                     } else {
@@ -69,10 +69,10 @@ module.exports = (connection) => {
             return promise;
         }, 
 
-        createTradeRequest: (fromUserId, acceptorWantsBookId) => {
+        createTradeRequest: (fromUserId, requestorWantsBookId) => {
             let promise = new Promise((resolve, reject) => {
                 
-                let getUserIdQueryForThisBook = `SELECT user_id from BOOKS where id = ${acceptorWantsBookId}`;
+                let getUserIdQueryForThisBook = `SELECT user_id from BOOKS where id = ${requestorWantsBookId}`;
                 //in posted books get the userID who is associated with this book id
                 connection.query(getUserIdQueryForThisBook, (err, rows) => {
                     if (err) {
@@ -85,7 +85,7 @@ module.exports = (connection) => {
                         //got the user_id.. now make a trade request to this user
                         let toUserId = rows[0].user_id;
                         let columnNames = 'from_user_id, acceptor_wants_book_id, to_user_id';
-                        let columnValues = `${fromUserId}, ${acceptorWantsBookId}, ${toUserId}`;
+                        let columnValues = `${fromUserId}, ${requestorWantsBookId}, ${toUserId}`;
                         let createTradeRequestQuery = `INSERT INTO trade_requests (${columnNames}) VALUES (${columnValues})`;
                         connection.query(createTradeRequestQuery, (err, rows) => {
                             if(err) {

@@ -15,7 +15,7 @@ module.exports = (app, dbAdapter) => {
 	});
 
 	app.post('/postBook', (req, res) => {
-		dbAdapter.postBook(req.userId, req.isbn, req.lat, req.long, req.imageUrl, req.title, req.genre, req.desc).then(() => {
+		dbAdapter.postBook(req.body.userId, req.body.isbn, req.body.latitude, req.body.longitude, req.body.imageUrl, req.body.title, req.body.genre, req.body.description, req.body.author).then(() => {
 			res.json({
 				"status": "success"
 			});
@@ -38,7 +38,7 @@ module.exports = (app, dbAdapter) => {
 		});
 	});
 
-	app.get('/getTradeRequests', (req, res) => {
+	app.post('/getTradeRequests', (req, res) => {
 		dbAdapter.getTradeRequests(req.fromUserId, req.toUserId).then((tradeRequests) => {
 			res.json({
 				"status": "success",
@@ -63,15 +63,27 @@ module.exports = (app, dbAdapter) => {
 		});
 	});
 
-	app.get('/getMyBooks', (req, res) => {
-		dbAdapter.getMyBooks(req.userId).then(() => {
+	app.post('/getMyBooks', (req, res) => {
+		dbAdapter.getMyBooks(req.userId).then((books) => {
+			res.json({
+				"status": "success",
+				"books" : books
+			});
+		},() => {
+			res.json({
+				"status": "failure"
+			});
+		});
+	});
+
+	app.post('/deleteBook', (req,res) => {
+		dbAdapter.deleteBook(req.bookId).then(() => {
 			res.json({
 				"status": "success"
 			});
-		},(books) => {
+		},() => {
 			res.json({
 				"status": "failure",
-				"books" : books
 			});
 		});
 	})

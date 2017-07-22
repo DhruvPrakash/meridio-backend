@@ -329,23 +329,23 @@ from me to somebody else
         "fromUserId": 123,
         "toUserId": 321,
         "status" : "approved",
-        "bookTraded": "A clash of crows?",
-        "forBook" : "The winds of winter"
+        "acceptorWantsBook": "A clash of crows?",
+        "requestorWantsBook" : "The winds of winter"
     },{
         "id": 5,
         "fromUserId": 123,
         "toUserId": 543,
         "status": "pending",
-        "bookTraded": null,
-        "forBook": "Darkness of dragons"
+        "acceptorWantsBook": null,
+        "requestorWantsBook": "Darkness of dragons"
         
     },{
         "id": 6,
         "fromUserId": 123,
         "toUserId": 326,
         "status": "declined",
-        "bookTraded": null,
-        "forBook": "Barney the purple dinosaur: Origin"
+        "acceptorWantsBook": null,
+        "requestorWantsBook": "Barney the purple dinosaur: Origin"
     }]
 }
 ```
@@ -359,22 +359,22 @@ from somebody else to me
         "fromUserId": 789,
         "toUserId": 123,
         "status": "pending",
-        "bookTraded": null,
-        "forBook": "Battlefield of the Mind",
+        "acceptorWantsBook": null,
+        "requestorWantsBook": "Battlefield of the Mind",
     },{
         "id": 2,
         "fromUserId": 432,
         "toUserId": 123,
         "status": "approved",
-        "bookTraded": "Naruto, the backstory",
-        "forBook": "The Harbringer"        
+        "acceptorWantsBook": "Naruto, the backstory",
+        "requestorWantsBook": "The Harbringer"        
     },{
         "id": 3,
         "fromUserId": 412,
         "toUserId": 123,
         "status": "declined",
-        "bookTraded": null,
-        "forBook": "The Hobbit",
+        "acceptorWantsBook": null,
+        "requestorWantsBook": "The Hobbit",
     }]
 }
 ```

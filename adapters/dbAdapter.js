@@ -110,6 +110,7 @@ module.exports = (connection) => {
                 //in posted books get the userID who is associated with this book id
                 connection.query(getUserIdQueryForThisBook, (err, rows) => {
                     if (err) {
+                        console.log(err);
                         console.log("Error in the get user id query");
                         return reject();
                     } else if (rows.length === 0) {

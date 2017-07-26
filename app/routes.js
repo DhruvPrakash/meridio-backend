@@ -88,7 +88,18 @@ module.exports = (app, dbAdapter) => {
 		});
 	})
 
-
+app.post('/booksAroundMe', (req, res) => {
+		dbAdapter.booksAroundMe(req.body.userId, req.body.latitude, req.body.longitude).then((books) => {
+			res.json({
+				"status": "success",
+				"books" : books
+			});
+		},() => {
+			res.json({
+				"status": "failure"
+			});
+		});
+	});
 
 }
 

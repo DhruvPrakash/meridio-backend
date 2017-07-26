@@ -292,8 +292,52 @@ module.exports = (connection) => {
                 });
             });
             return promise;
+        },
+        booksAroundMe: (userId, userLatitude, userLongitude) => {
+            let promise = new Promise((resolve, reject) => {
+                let columnNames = 'user_id';
+                let columnValues = `${userId}`;
+                let getBooksQuery = `SELECT * from books where ${columnNames} != (${columnValues})`;
+
+                connection.query(getBooksQuery, (err, rows) => {
+                    if(err) {
+                        console.log("Error in getting books");
+                        return reject();
+                    } else {
+                        let filteredRows = rows.filter((row) => {
+                            var lat1 = userLatitude;
+                            var lon1 = userLongitude;
+                            var lat2 = row.latitude;
+                            var lon2 = row.longitude;
+                            
+                            //console.log(lat1+" "+lat2+" "+lon1+" "+lon2);
+                             var R = 6371; // Radius of the earth in km
+                            var dLat = (lat2-lat1)* (Math.PI/180);  
+                            var dLon = (lon2-lon1)* (Math.PI/180); 
+                            var a = 
+                            Math.sin(dLat/2) * Math.sin(dLat/2) +
+                            Math.cos((lat1)* (Math.PI/180)) * Math.cos((lat2)* (Math.PI/180)) * 
+                                    Math.sin(dLon/2) * Math.sin(dLon/2)
+                                ; 
+                            var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+                            var d = R * c; // Distance in km
+                               var distInMiles = 0.621371 * d;
+                             //  console.log(distInMiles);
+                               if(distInMiles < 2.0){
+                                   return true;
+                               }
+                               else 
+                                   return false;
+                        });
+                      
+                        return resolve(filteredRows);
+                    }
+                });
+            });
+            return promise;
         }
-    }
+    } 
+        
 
     //TODO: booksAroundMe, interface documentation and testing
 }

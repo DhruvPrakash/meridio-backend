@@ -261,7 +261,7 @@ module.exports = (connection) => {
             return promise;
         },
 
-        getMyBooks: (userId) => {
+        getBooks: (userId) => {
             let promise = new Promise((resolve, reject) => {
                 let columnNames = 'user_id';
                 let columnValues = `${userId}`;

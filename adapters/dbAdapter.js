@@ -106,7 +106,7 @@ module.exports = (connection) => {
             let promise = new Promise((resolve, reject) => {
                 let getUserEmailFromFromId = `SELECT email FROM users WHERE user_id = ${fromUserId}`;
 
-                let getUserIdQueryForThisBook = `SELECT user_id from BOOKS where id = ${requestorWantsBookId}`;
+                let getUserIdQueryForThisBook = `SELECT user_id from books where id = ${requestorWantsBookId}`;
                 //in posted books get the userID who is associated with this book id
                 connection.query(getUserIdQueryForThisBook, (err, rows) => {
                     if (err) {

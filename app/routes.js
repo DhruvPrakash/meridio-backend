@@ -64,7 +64,7 @@ module.exports = (app, dbAdapter) => {
 	});
 
 	app.post('/getMyBooks', (req, res) => {
-		dbAdapter.getMyBooks(req.body.userId).then((books) => {
+		dbAdapter.getBooks(req.body.userId).then((books) => {
 			res.json({
 				"status": "success",
 				"books" : books
@@ -86,7 +86,20 @@ module.exports = (app, dbAdapter) => {
 				"status": "failure",
 			});
 		});
-	})
+	});
+
+	app.post('/booksAvailableWithRequestor', (req,res) => {
+		dbAdapter.getBooks(req.body.userId).then((books) => {
+			res.json({
+				"status": "success",
+				"books" : books
+			});
+		}, () => {
+			res.json({
+				"status": "failure"
+			});
+		});
+	});
 
 
 

@@ -104,7 +104,7 @@ module.exports = (connection) => {
 
         createTradeRequest: (fromUserId, requestorWantsBookId) => {
             let promise = new Promise((resolve, reject) => {
-                let getUserEmailFromFromId = `SELECT email_id FROM users WHERE user_id = ${fromUserId}`;
+                let getUserEmailFromFromId = `SELECT email_id FROM users WHERE id = ${fromUserId}`;
 
                 let getUserIdQueryForThisBook = `SELECT user_id from books where id = ${requestorWantsBookId}`;
                 //in posted books get the userID who is associated with this book id
@@ -120,7 +120,7 @@ module.exports = (connection) => {
                         //got the user_id.. now make a trade request to this user
                         let bookNameQuery = `SELECT title from books where id = ${requestorWantsBookId}`;
                         let toUserId = rows[0].user_id;
-                        let getUserEmailFromToId = `SELECT email_id FROM users WHERE user_id = ${toUserId}`;
+                        let getUserEmailFromToId = `SELECT email_id FROM users WHERE id = ${toUserId}`;
 
                         connection.query(getUserEmailFromFromId, (err,rows) => {
                             if(!err) {

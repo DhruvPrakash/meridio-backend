@@ -152,6 +152,7 @@ module.exports = (connection) => {
                                     }
                                 });
                             } else {
+                                console.log(err);
                                 console.log("Error in getting email from the from id");
                                 return reject();
                             }

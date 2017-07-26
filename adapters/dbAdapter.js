@@ -104,7 +104,8 @@ module.exports = (connection) => {
 
         createTradeRequest: (fromUserId, requestorWantsBookId) => {
             let promise = new Promise((resolve, reject) => {
-                
+                let getUserEmailFromFromId = `SELECT email FROM users WHERE user_id = ${fromUserId}`;
+
                 let getUserIdQueryForThisBook = `SELECT user_id from BOOKS where id = ${requestorWantsBookId}`;
                 //in posted books get the userID who is associated with this book id
                 connection.query(getUserIdQueryForThisBook, (err, rows) => {
@@ -118,25 +119,46 @@ module.exports = (connection) => {
                         //got the user_id.. now make a trade request to this user
                         let bookNameQuery = `SELECT title from books where id = ${requestorWantsBookId}`;
                         let toUserId = rows[0].user_id;
-                        
-                        connection.query(bookNameQuery, (err, rows) => {
-                            if(err) {
-                                console.log("Error in fetching book title");
-                                return reject();
-                            } else {
-                                let columnNames = 'from_user_id, requestor_wants_book_id, to_user_id, status, requestor_wants_book';
-                                let columnValues = `${fromUserId}, ${requestorWantsBookId}, ${toUserId}, 'pending', '${rows[0].title}'`;
-                                let createTradeRequestQuery = `INSERT INTO trade_requests (${columnNames}) VALUES (${columnValues})`;
-                                connection.query(createTradeRequestQuery, (err, rows) => {
-                                    if(err) {
-                                        console.log("Error is creating a trade request");
-                                        return reject();
+                        let getUserEmailFromToId = `SELECT email FROM users WHERE user_id = ${toUserId}`;
+
+                        connection.query(getUserEmailFromFromId, (err,rows) => {
+                            if(!err) {
+                                let fromEmail = rows[0].email;
+                                connection.query(getUserEmailFromToId, (err,rows) => {
+                                    if(!err) {
+                                        let toEmail = rows[0].email;
+                                        connection.query(bookNameQuery, (err, rows) => {
+                                            if(err) {
+                                                console.log("Error in fetching book title");
+                                                return reject();
+                                            } else {
+                                                let columnNames = 'from_user_id, requestor_wants_book_id, to_user_id, status, requestor_wants_book, to_email, from_email';
+                                                let columnValues = `${fromUserId}, ${requestorWantsBookId}, ${toUserId}, 'pending', '${rows[0].title}', '${toEmail}', '${fromEmail}'`;
+                                                let createTradeRequestQuery = `INSERT INTO trade_requests (${columnNames}) VALUES (${columnValues})`;
+                                                connection.query(createTradeRequestQuery, (err, rows) => {
+                                                    if(err) {
+                                                        console.log("Error is creating a trade request");
+                                                        return reject();
+                                                    } else {
+                                                        return resolve();
+                                                    }
+                                                });
+                                            }
+                                        });
                                     } else {
-                                        return resolve();
+                                        console.log("Error in getting email from the to id");
+                                        return reject();
                                     }
                                 });
+                            } else {
+                                console.log("Error in getting email from the from id");
+                                return reject();
                             }
                         });
+
+                        
+                        
+                        
                     }
                 });
                 
@@ -159,7 +181,7 @@ module.exports = (connection) => {
                     columnValues = `${fromUserId}`;
                 }
 
-                getTradeRequestsQuery = `SELECT id, from_user_id as fromUserId, to_user_id as toUserId, status, acceptor_wants_book as acceptorWantsBook, requestor_wants_book as requestorWantsBook from trade_requests where ${columnNames} = ${columnValues}`;
+                getTradeRequestsQuery = `SELECT id, from_user_id as fromUserId, to_user_id as toUserId, status, acceptor_wants_book as acceptorWantsBook, requestor_wants_book as requestorWantsBook,from_email as fromEmail, to_email as toEmail from trade_requests where ${columnNames} = ${columnValues}`;
 
                 connection.query(getTradeRequestsQuery, (err, rows) => {
                     if(err) {

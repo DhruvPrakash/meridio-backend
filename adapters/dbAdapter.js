@@ -105,7 +105,7 @@ module.exports = (connection) => {
         createTradeRequest: (fromUserId, requestorWantsBookId) => {
             let promise = new Promise((resolve, reject) => {
                 
-                let getUserIdQueryForThisBook = `SELECT user_id from BOOKS where id = ${requestorWantsBookId}`;
+                let getUserIdQueryForThisBook = `SELECT user_id from books where id = ${requestorWantsBookId}`;
                 //in posted books get the userID who is associated with this book id
                 connection.query(getUserIdQueryForThisBook, (err, rows) => {
                     if (err) {
@@ -130,7 +130,7 @@ module.exports = (connection) => {
                                 connection.query(createTradeRequestQuery, (err, rows) => {
                                     if(err) {
                                         console.log("Error is creating a trade request");
-                                        return reject();
+                                       	return reject();
                                     } else {
                                         return resolve();
                                     }

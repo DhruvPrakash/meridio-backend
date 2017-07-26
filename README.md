@@ -330,14 +330,18 @@ from me to somebody else
         "toUserId": 321,
         "status" : "approved",
         "acceptorWantsBook": "A clash of crows?",
-        "requestorWantsBook" : "The winds of winter"
+        "requestorWantsBook" : "The winds of winter",
+        "fromEmail": "abc@gmail.com",
+        "toEmail": "cba@gmail.com"
     },{
         "id": 5,
         "fromUserId": 123,
         "toUserId": 543,
         "status": "pending",
         "acceptorWantsBook": null,
-        "requestorWantsBook": "Darkness of dragons"
+        "requestorWantsBook": "Darkness of dragons",
+        "fromEmail": "abc@gmail.com",
+        "toEmail": "def@gmail.com"
         
     },{
         "id": 6,
@@ -345,7 +349,9 @@ from me to somebody else
         "toUserId": 326,
         "status": "declined",
         "acceptorWantsBook": null,
-        "requestorWantsBook": "Barney the purple dinosaur: Origin"
+        "requestorWantsBook": "Barney the purple dinosaur: Origin",
+        "fromEmail": "abc@gmail.com", 
+        "toEmail": "dragon@gmail.com""
     }]
 }
 ```
@@ -361,13 +367,17 @@ from somebody else to me
         "status": "pending",
         "acceptorWantsBook": null,
         "requestorWantsBook": "Battlefield of the Mind",
+        "fromEmail": "fred@gmail.com",
+        "toEmail": "abc@gmail.com"
     },{
         "id": 2,
         "fromUserId": 432,
         "toUserId": 123,
         "status": "approved",
         "acceptorWantsBook": "Naruto, the backstory",
-        "requestorWantsBook": "The Harbringer"        
+        "requestorWantsBook": "The Harbringer",    
+        "fromEmail": "george@gmail.com"
+        "toEmail": "abc@gmail.com"
     },{
         "id": 3,
         "fromUserId": 412,
@@ -375,6 +385,8 @@ from somebody else to me
         "status": "declined",
         "acceptorWantsBook": null,
         "requestorWantsBook": "The Hobbit",
+        "fromEmail": "aang@gmail.com",
+        "toEmail": "abc@gmail.com"
     }]
 }
 ```

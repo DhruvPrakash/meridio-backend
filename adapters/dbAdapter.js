@@ -104,12 +104,13 @@ module.exports = (connection) => {
 
         createTradeRequest: (fromUserId, requestorWantsBookId) => {
             let promise = new Promise((resolve, reject) => {
-                let getUserEmailFromFromId = `SELECT email FROM users WHERE user_id = ${fromUserId}`;
+                let getUserEmailFromFromId = `SELECT email_id FROM users WHERE id = ${fromUserId}`;
 
-                let getUserIdQueryForThisBook = `SELECT user_id from BOOKS where id = ${requestorWantsBookId}`;
+                let getUserIdQueryForThisBook = `SELECT user_id from books where id = ${requestorWantsBookId}`;
                 //in posted books get the userID who is associated with this book id
                 connection.query(getUserIdQueryForThisBook, (err, rows) => {
                     if (err) {
+                        console.log(err);
                         console.log("Error in the get user id query");
                         return reject();
                     } else if (rows.length === 0) {
@@ -119,14 +120,14 @@ module.exports = (connection) => {
                         //got the user_id.. now make a trade request to this user
                         let bookNameQuery = `SELECT title from books where id = ${requestorWantsBookId}`;
                         let toUserId = rows[0].user_id;
-                        let getUserEmailFromToId = `SELECT email FROM users WHERE user_id = ${toUserId}`;
+                        let getUserEmailFromToId = `SELECT email_id FROM users WHERE id = ${toUserId}`;
 
                         connection.query(getUserEmailFromFromId, (err,rows) => {
                             if(!err) {
-                                let fromEmail = rows[0].email;
+                                let fromEmail = rows[0].email_id;
                                 connection.query(getUserEmailFromToId, (err,rows) => {
                                     if(!err) {
-                                        let toEmail = rows[0].email;
+                                        let toEmail = rows[0].email_id;
                                         connection.query(bookNameQuery, (err, rows) => {
                                             if(err) {
                                                 console.log("Error in fetching book title");
@@ -151,6 +152,7 @@ module.exports = (connection) => {
                                     }
                                 });
                             } else {
+                                console.log(err);
                                 console.log("Error in getting email from the from id");
                                 return reject();
                             }
@@ -259,7 +261,7 @@ module.exports = (connection) => {
             return promise;
         },
 
-        getMyBooks: (userId) => {
+        getBooks: (userId) => {
             let promise = new Promise((resolve, reject) => {
                 let columnNames = 'user_id';
                 let columnValues = `${userId}`;

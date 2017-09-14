@@ -26,7 +26,7 @@ function mysql_real_escape_string (str) {
 }
 
 module.exports = (connection) => {
-    “use strict”;
+    
     return {
         
         setUserSession: (name, sessionToken, emailId) => {

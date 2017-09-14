@@ -32,7 +32,7 @@ module.exports = (connection) => {
         setUserSession: (name, sessionToken, emailId) => {
             let promise = new Promise((resolve, reject) => {
                 name = mysql_real_escape_string(name);
-                let columnNames = 'name, session, email_id';
+                let columnNames = 'id, session, email_id';
                 let columnValues = `'${name}', '${sessionToken}', '${emailId}'`;
                 let checkExistsQueryString = `SELECT id FROM users WHERE email_id = '${emailId}'`;
                 let updateSessionQueryString = `UPDATE users SET session = '${sessionToken}' WHERE email_id = '${emailId}'`;
